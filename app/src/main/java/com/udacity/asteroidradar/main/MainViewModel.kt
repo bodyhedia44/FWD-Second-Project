@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.api.ImageApi
 import retrofit2.Call
@@ -13,17 +14,21 @@ import kotlin.math.log
 
 class MainViewModel : ViewModel() {
 
-    private val _imageofday=MutableLiveData<String>()
+    init {
+        getimage()
+    }
 
-    val imageofday:LiveData<String>
+
+    private val _imageofday=MutableLiveData<PictureOfDay>()
+    val imageofday:LiveData<PictureOfDay>
         get() = _imageofday
 
 
     private fun getimage(){
-        ImageApi.retrofitService.getiamge().enqueue(object:Callback,
+        ImageApi.retrofitService.getiamge(Constants.API_KEY).enqueue(object:Callback,
             retrofit2.Callback<PictureOfDay> {
             override fun onResponse(call: Call<PictureOfDay>, response: Response<PictureOfDay>) {
-                Log.d("done",response.body().toString())
+               _imageofday.value=response.body()
             }
 
             override fun onFailure(call: Call<PictureOfDay>, t: Throwable) {
