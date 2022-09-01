@@ -24,6 +24,7 @@ private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(Constants.BASE_URL)
     .build()
+
 private val retrofit2 = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(Constants.BASE_URL)
