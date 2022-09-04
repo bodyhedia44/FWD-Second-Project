@@ -18,7 +18,7 @@ import com.udacity.asteroidradar.detail.DetailFragment
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+        ViewModelProvider(this,MainViewModel.Factory(activity!!.application)).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +42,12 @@ class MainFragment : Fragment() {
             } else binding.statusLoadingWheel.visibility = View.VISIBLE
         }
 
-        viewModel.asteroids.observe(viewLifecycleOwner) {
-            adapter.alist = it
+        viewModel.aste.observe(viewLifecycleOwner) {
+
+            if (it.size!==0){
+                adapter.alist = it
+                viewModel.changeweel()
+            }
         }
 
         setHasOptionsMenu(true)
