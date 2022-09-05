@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        delaysetupWork()
+         delaysetupWork()
     }
 
     private fun delaysetupWork() {
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupWork(){
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(true)
             .setRequiresCharging(true)
             .apply {

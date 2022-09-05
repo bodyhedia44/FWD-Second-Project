@@ -18,12 +18,11 @@ import com.udacity.asteroidradar.detail.DetailFragment
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this,MainViewModel.Factory(activity!!.application)).get(MainViewModel::class.java)
+        ViewModelProvider(this,MainViewModel.Factory(requireActivity().application)).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        viewModel.getimage()
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
 

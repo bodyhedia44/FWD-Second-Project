@@ -43,13 +43,19 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 }
 
 @BindingAdapter("imageUrl")
-fun bindImage(imgView: ImageView, imgUrl: String?) {
+fun bindImage(imgView: ImageView, imgUrl: PictureOfDay?) {
     imgUrl?.let {
-        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-        Picasso.get()
-            .load(imgUri)
-            .placeholder(R.drawable.placeholder_picture_of_day)
-            .error(R.drawable.placeholder_picture_of_day)
-            .into(imgView)
+        if (imgUrl.url=="no"){
+            imgView.setImageResource(R.drawable.space)
+        }else{
+            val imgUri = imgUrl.url.toUri().buildUpon().scheme("https").build()
+            Picasso.get()
+                .load(imgUri)
+                .placeholder(R.drawable.placeholder_picture_of_day)
+                .error(R.drawable.placeholder_picture_of_day)
+                .into(imgView)
+            imgView.contentDescription=imgUrl.title
+        }
+
     }
 }
