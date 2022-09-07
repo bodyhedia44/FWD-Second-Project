@@ -18,14 +18,13 @@ import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.api.Api
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidDatabase.Companion.getInstance
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.security.auth.callback.Callback
 import kotlin.math.log
 
@@ -64,12 +63,13 @@ init {
         super.onCleared()
         viewmodeljob.cancel()
     }
-    val aste =repo.data
+    var aste=repo.AllData
+    val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern(Constants.API_QUERY_DATE_FORMAT))
+    } else { TODO("VERSION.SDK_INT < O") }
 
 
-
-
-     fun getimage(){
+    fun getimage(){
         Api.retrofitService.getiamge(mapOf(
             "api_key" to Constants.API_KEY
         )).enqueue(object:Callback,
@@ -90,7 +90,17 @@ init {
         else _weel.value=true
     }
 
+      fun getAll(): List<Asteroid>{
+          return aste.value!!
+    }
 
+     fun getToday(): List<Asteroid> {
+         var temp = listOf<Asteroid>()
+         for (i in aste.value!!){
+            if (i.closeApproachDate==current)temp+=i
+         }
+         return temp
+     }
 
 
     class Factory(val app: Application) : ViewModelProvider.Factory {

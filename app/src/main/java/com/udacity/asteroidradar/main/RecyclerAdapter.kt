@@ -30,8 +30,15 @@ class RecyclerAdapter(private val onClickListener: OnClickListener)
         val item=alist[position]
         holder.sectxt.text=item.closeApproachDate
         holder.maintxt.text=item.codename
-        if(item.isPotentiallyHazardous) holder.icon.setImageResource(R.drawable.ic_status_potentially_hazardous)
-        else holder.icon.setImageResource(R.drawable.ic_status_normal)
+        if(item.isPotentiallyHazardous){
+            holder.icon.setImageResource(R.drawable.ic_status_potentially_hazardous)
+            holder.icon.contentDescription="isPotentiallyHazardous"
+        }
+        else {
+            holder.icon.setImageResource(R.drawable.ic_status_normal)
+            holder.icon.contentDescription="Normal asteroid"
+        }
+
         holder.itemView.setOnClickListener {
             onClickListener.clickListener(item)
         }

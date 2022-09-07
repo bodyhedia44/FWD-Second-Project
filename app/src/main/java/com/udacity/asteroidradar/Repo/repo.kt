@@ -1,11 +1,14 @@
 package com.udacity.asteroidradar.Repo
 
 import android.os.Build
+import androidx.lifecycle.LiveData
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import retrofit2.awaitResponse
@@ -15,8 +18,9 @@ import java.time.format.DateTimeFormatter
 
 class Repo(private val database:AsteroidDatabase) {
     
-    
-    val data=database.asteroidDatabaseDao.getAllAsteroids()
+
+       val AllData= database.asteroidDatabaseDao.getAllAsteroids()
+
 
     suspend fun refresh(){
         val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
